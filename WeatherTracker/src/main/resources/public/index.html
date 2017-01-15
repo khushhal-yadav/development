@@ -34,9 +34,9 @@
                     </div>
                     <div ng-if="weatherData.city.name">
                         <h2>{{weatherData.city.name}}, {{weatherData.city.country}}</h2>
-                        <h4>Temperatures are in Fahrenheits</h4> <br><br>
+                        <h4>Temperatures are in Kelvin</h4> <br><br>
 
-                        <h1>{{weatherData.list[0].main.temp}} 'F</h1>
+                        <h1>{{weatherData.list[0].main.temp}} 'K</h1>
                         <h2>{{weatherData.list[0].weather[0].description}}</h2>
                         <h2>Humidity: {{weatherData.list[0].main.humidity}} %</h2>
                         <h2>Wind speed: {{weatherData.list[0].wind.speed}} mph</h2>
