@@ -6,6 +6,7 @@ app.controller('weatherController', function($scope, $http, weatherService){
     //function called at page loading
     $scope.initial = function(){
         fetchData(defaultLocation);
+        //getCurrentPosition() and watchPosition() no longer work on insecure origins for some of the browsers (they require https connections). worked with firefox though.
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position){
                 latitude = position.coords.latitude;
