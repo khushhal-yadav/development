@@ -4,11 +4,12 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-        <title>Plan your day - check weather now!</title>
+        <title>Plan your week - check weather now!</title>
 
         <!--CSS-->
         <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/weatherapp.css">
+        <link rel="stylesheet" href="css/weather-icons.css">
 
         <!--JS-->
         <script src="lib/angular/angular.min.js"></script>
@@ -16,48 +17,66 @@
         <script src="lib/jquery/jquery.min.js"></script>
         <script src="lib/bootstrap/js/bootstrap.min.js"></script>
         <script src="js/weatherApp.js"></script>
+        <script src="js/filters/weatherFilters.js"></script>
+        <script src="js/services/weatherService.js"></script>
         <script src="js/controllers/weatherCtrl.js"></script>
 
     </head>
 
     <body>
-        <h1>Plan your day - check weather now!</h1>
+        <h1>Plan your week - check weather now!</h1>
 
         <div ng-app="weatherApp">
             <div ng-controller="weatherController as weather">
                 <div class="col-md-5">
                     <form ng-submit="refresh()">
-                        <input type="text" ng-model="location" placeholder="Type location and hit enter to fetch weather forecast"/>
+                        <input type="text" ng-model="location" placeholder="Type location and hit enter"/>
                     </form>
-                    <div class="key">
-                        <h3><span class="clouds">Clouds</span> |<span class="rain">Rain</span> | <span class="snow">Snow</span> | <span class="clear">Clear</span> </h3>
-                    </div>
-                    <div ng-if="weatherData.city.name">
-                        <h2>{{weatherData.city.name}}, {{weatherData.city.country}}</h2>
-                        <h4>Temperatures are in Kelvin</h4> <br><br>
 
-                        <h1>{{weatherData.list[0].main.temp}} 'K</h1>
-                        <h2>{{weatherData.list[0].weather[0].description}}</h2>
-                        <h2>Humidity: {{weatherData.list[0].main.humidity}} %</h2>
-                        <h2>Wind speed: {{weatherData.list[0].wind.speed}} m/s</h2>
-                        <h2>Today's min temp: {{weatherData.list[0].main.temp_min}}</h2>
-                        <h2>Today's min temp: {{weatherData.list[0].main.temp_max}}</h2>
+                    <div class="today" ng-if="weatherData.city.name">
+                        <div class="cardtop">
+                            <h2>{{weatherData.city.name}}, {{weatherData.city.country}}</h2>
+                            <h4>{{formatDate(weatherData.list[0].dt_txt) | date:"EEEE"}}</h4>
+                            <h4>{{formatDate(weatherData.list[0].dt_txt) | date:"MMM d, y"}}</h4>
+
+
+                        </div>
+                        <div class="cardbottom">
+                            <div class="left tempslug">
+                                <i ng-class="{'wi wi-day-sunny': weatherData.list[0].weather[0].main == 'Clear', 'wi wi-cloudy': weatherData.list[0].weather[0].main == 'Clouds', 'wi wi-rain': weatherData.list[0].weather[0].main == 'Rain', 'wi wi-snow': weatherData.list[0].weather[0].main == 'Snow'}"></i>
+                                <h1>{{weatherData.list[0].main.temp | celsius}} °C</h1>
+                                <h4>{{weatherData.list[0].weather[0].description | capitalize}}</h4>
+                            </div>
+
+                            <div class="right">
+                                <h4>Humidity: {{weatherData.list[0].main.humidity}} %</h4>
+                                <h4>Wind speed: {{weatherData.list[0].wind.speed}} m/s</h4>
+                                <h4>Today's min temp: {{weatherData.list[0].main.temp_min | celsius}} °C</h4>
+                                <h4>Today's max temp: {{weatherData.list[0].main.temp_max | celsius}} °C</h4>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
                     </div>
                 </div>
 
                 <h2 class="loading">Fetching weather details...</h2>
+                <h2 class="error"></h2>
 
                 <div ng-repeat="(key, value) in weatherData.list | groupBy: 'date'" class="col-md-1">
-                    <h4> {{ key }} </h4>
+                    <h4> {{ key | date:"MMM d, y"}} </h4>
 
                     <div ng-repeat="item in value" class="row">
                         <p ng-class="{clear: item.weather[0].main == 'Clear', clouds: item.weather[0].main == 'Clouds', rain: item.weather[0].main == 'Rain', snow: item.weather[0].main == 'Snow'}">
-                            {{item.dt_txt}}<br>
-                            {{item.weather[0].description}}<br>
-                            Temp: {{item.main.temp}}<br>
-                            Min Temp: {{item.main.temp_min}}<br>
-                            Max Temp: {{item.main.temp_max}}<br>
-                            Humidity: {{item.main.humidity}}<br>
+                            {{formatDate(item.dt_txt) | date:"EEEE HH:MM"}}<br><br>
+                            <i ng-class="{'wi wi-day-sunny': item.weather[0].main == 'Clear', 'wi wi-cloudy': item.weather[0].main == 'Clouds', 'wi wi-rain': item.weather[0].main == 'Rain', 'wi wi-snow': item.weather[0].main == 'Snow'}"></i><br>
+                            <br>{{item.weather[0].description | capitalize }}<br><br>
+
+                        </p>
+                        <div class="separator"></div>
+                        <p>
+                            Temp: {{item.main.temp | celsius}} °C<br>
+                            Min: {{item.main.temp_min | celsius}}° Max: {{item.main.temp_max | celsius}}°<br>
+                            Humidity: {{item.main.humidity}} %<br>
                         </p>
                     </div>
                 </div>

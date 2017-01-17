@@ -1,38 +1,48 @@
-app.controller('weatherController', function($scope, $http){
+app.controller('weatherController', function($scope, $http, weatherService){
 
     $scope.location = '';
+    var defaultLocation = 'Glasgow';
 
     $scope.initial = function(){
-         $('.loading').hide();
-    };
-
-    $scope.getDate = function(input) {
-        if(input ===undefined)
-            return;
-        var parts = input.split(' ');
-        return parts[0];
+        //TODO: show weather as per current location
+        /*if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position){
+                latitude = position.coords.latitude;
+                longitude = position.coords.longitude;
+                currentLocation = "lat="+ latitude+"&lon="+longitude;
+                console.log("currentLocation : " + currentLocation);
+                fetchData(currentLocation);
+            });
+        } else {*/
+            fetchData(defaultLocation);
+        /*}*/
     };
 
     $scope.refresh = function(){
+        fetchData($scope.location);
+    };
+
+    fetchData = function(location) {
         $('.loading').show();
-        if($scope.location != ''){
-            url = "http://api.openweathermap.org/data/2.5/forecast?q=" + $scope.location + "&mode=json&appid=c5075e558efec609f928da0f3ceb005f"
+            url = weatherService.getUrl(location);
             $http.get(url).
                 success(function(data){
                     $scope.weatherData = data;
                     angular.forEach($scope.weatherData.list, function(value1, i) {
-                        $scope.weatherData.list[i].date = $scope.getDate(value1.dt_txt);
+                        $scope.weatherData.list[i].date = weatherService.getDate(value1.dt_txt);
                     });
-                    $('.loading').hide();
-        	    }).
+                $('.loading').hide();
+            	}).
                 error(function(){
-                    $('.loading').hide();
-                    $('.error').show().html("Some error occured while fetching weather details from API");
-        });
+                     $('.loading').hide();
+                     $('.error').show().html("Some error occured while fetching weather details from API");
+                });
 
-      } else {
-        $scope.initial();
-      }
+    }
+
+    $scope.formatDate = function(date){
+        var dateOut = new Date(date);
+        return dateOut;
     };
 
     $scope.initial();

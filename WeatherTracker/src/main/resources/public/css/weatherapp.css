@@ -1,47 +1,98 @@
 body {
-	text-align:center;
-	padding:0px 30px 30px;
-	line-height:1.3;
-	background: url('../images/background.png') no-repeat center center fixed;
-	background-size: cover;
-	}
+   text-align:center;
+   padding:0px 30px 30px;
+   line-height:1.3;
+   background: none repeat scroll 0% 0% #1C1E22;
+   background-size: cover;
+   color: #E0E0E0;
+   }
 
 p {
-	width: 90%;
-	margin: 5px auto;
-	}
+   width: 90%;
+   margin: 5px auto;
+   }
 
 input {
-	align: left
-	padding:10px;
-	margin:5px;
-	width:80%;
-	font-size:2em;
-	text-align:center;
-	}
+   /*align: left*/
+   padding:10px;
+   margin:5px;
+   width:80%;
+   font-size:2em;
+   text-align:center;
+   }
 
 h1, h2, h4 {
     color: #ECF0F1;
 }
 
-
-.rain {
-	/*background: #BAE8E7;*/
-	background-image: url('../images/rain.png');
-	}
-
-.clear {
-	background-image: url('../images/clear.png');
-	}
-
-.clouds {
-	background-image: url('../images/clouds.png');
-	}
-
-.snow {
-	background-image: url('../images/snow.png');
-	}
+.cardtop{
+   text-align:left;
+}
 
 .error {
-	color:red;
-	}
+   color:red;
+ }
+
+input{
+   color: #333;
+}
+
+
+.row, .today{
+   border-radius: 5px;
+    background-color: #2E3135;
+    padding:5px;
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.16);
+}
+
+.today{
+   width: 80%;
+   margin-top: 2%;
+   margin-left: 10%;
+   padding: 2px 16px 4px 18px;
+
+}
+
+.capitalize {
+   text-transform: capitalize;
+}
+.col-md-1 {
+   margin-right:1%;
+}
+.row{
+   margin-bottom: 10%;
+}
+.separator{
+   clear: left;
+   height: 1px;
+   background-color: #25282C;
+   width: 100%;
+}
+
+.left{
+   float: left;
+}
+
+.left h1{
+   display:inline;
+}
+.right{
+   float: right;
+   text-align: right;
+}
+
+.clear{
+   clear: both;
+}
+
+.tempslug i, .tempslug h1{
+   font-size: 64px;
+}
+
+.cardbottom{
+   margin-top: 30px
+}
+
+.left h1{
+   margin-left: 10px
+}
